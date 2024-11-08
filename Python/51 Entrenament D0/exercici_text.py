@@ -25,7 +25,7 @@ input_box = {
     "y": 200,
     "width": 200,
     "height": 32,
-    "text": "",
+    "text": "Byron",
     "focused": False
 }
 
@@ -33,7 +33,10 @@ cursor = {
     "visible": True,
     "timer": 0,
     "position": 0
+    "blink_speed": 0.5
 }
+
+
 
 def main():
     is_looping = True
@@ -49,25 +52,65 @@ def main():
 
 def app_events():
     global cursor
+    mouse_inside = pygame.mouse.get_focused()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
+        elif even.type == pygame.MOUSEBUTTONDOWN:
+            mouse["x"], mouse["y"] = event.pos
+            if mouse:
+                input_box["focused"] = True
+            else:
+                input_box["focused"] = False
+        #elif event.type == pygame.TEXTINPUT:
+        #    if event.unicode.isprintable() and event.unicode not in "´^¨~":
+        #        input_box["text"].append(event.text)
+        elif event.type == pygame.KEYDOWN and input_box["focused"]:
+            if event.unicode.isprintable() and event.unicode not in "`´^¨~":
+                #print(event.unicode)
+                input_box["text"] += event.unicode
+            if event.key == pygame.K_BACKSPACE:
+                input_box["text"] = input_box["text"][0:-1]
+        else:
+            mouse["pressed"] = False
+
         # TODO
     return True
 
 def app_run():
-    pass
+    
+    cursor["timer"] = cursor["timer"] + delta_time
+    if cursor["timer"] >= cursor["blink_speed"]:
+        cursor["visible"] = not cursor["visible"]
+        cursor["timer"] = 0
 
 def app_draw():
     screen.fill(WHITE)
     utils.draw_grid(pygame, screen, 50)
 
     # TODO: Dibuix del quadre de text
-    
-    # TODO: Dibuix del text dins del quadre de text
+    color = BLUE 
+    if not input_box["focused"]: 
+        color = GRAY
+    rect_tuple = (input_box["x"], input_box["y"], input_box["width"], input_box["height"])
+    pygame.draw.rect(screen, WHITE, rect_tuple)
+    pygame.draw.rect(screen, color, rect_tuple, 2)
+
+    # TODO: Dibuix del text dins del quadre de tex
+    text_suface= font.render(input_box["text"], True, BLACK)
+    text_tuple = (input_box["x"] + 4, input_box["y"] + (input_box["height"] / 5))
+    screen.blit(string, string_pos)
+
     
     # TODO: Dibuix del cursor (intermitent)
 
+    text_width = font.size(input_box["text"])[0]
+    padding = 5
+    cursosr_x = input_box["x"] + text_width + padding
+    start_pos = ( cursosr_x, input_box["y"] + padding)
+    end_pos = (input_box["x"] + text_width + padding, input_box["y"] + input_box["height"] - padding)
+    pygame.draw.line(screen, BLACK, start_pos, end_pos, 2)
     pygame.display.update()
 
 if __name__ == "__main__":

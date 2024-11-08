@@ -43,12 +43,16 @@ scroll = {
     "surface_offset": 0,
     "visible_height": 200
 }
-
+surface = pygame.Surface((320,500))
+surface.fill((200,200,200))
 # TODO: Superficie de 320x500
 
 # Bucle de l'aplicació
 def main():
     is_looping = True
+    pygame.draw.line(surface, RED, (0,0), (320,500), 5)
+    pygame.draw.line(surface, GREEN, (0,500), (320,0), 5)
+
 
     # TODO: Fer un dibuix a la surface 
     # (fons gris dues linies en forma de creucreu)
@@ -82,9 +86,11 @@ def app_events():
     return True
 
 # Fer càlculs
+
+
 def app_run():
     global scroll
-
+    
     # TODO: Comprovar si el mouse ha fet click dins del cercle i iniciar l'arrossegament
     # definir scroll["dragging"]
     # si s'està arrossegant, atualitzar la posició del cercle
