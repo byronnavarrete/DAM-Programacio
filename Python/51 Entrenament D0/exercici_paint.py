@@ -27,7 +27,9 @@ mouse = {
     "y": -1,
     "pressed": False
 }
-polygons = []
+polygons = [
+    pygame.draw.polygon(screen, BLACK, (x, y))
+]
 line_width = 1
 buttons_width = []
 selected_color = BLACK
@@ -53,17 +55,39 @@ def app_events():
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # Botó tancar finestra
             return False
-
+    elif event.type == pygame.MOUSEMOTION:
+        if pygame.mouse.get_focused():
+        mouse["x"] = event.pos[0]
+        mouse["y"] = event.pos[1]
     return True
 
 # Fer càlculs
 def app_run():
+    #si s'esta movent el mouse, afegir
     pass
-
+    if mouse["pressed"]:
+        punts.append([mouse["x"], mouse["y"]])
 # Dibuixar
 def app_draw():
     # Pintar el fons de blanc
     screen.fill(WHITE)
+    #todo
+    for punt in punts:
+        pygame.draw.circle(screen, BLACK, punt, 5)
+
+    #todo
+    punts = []
+    for punt in punts:
+        pygame.draw.line(screen, BLACK, punt, 2)
+
+    # todo
+    if len(points) >= 2:
+        pygame.draw.lines(screen, BLACK, False, points, 2)
+
+    # todo
+
+
+    # todo
 
     # Actualitzar el dibuix a la finestra
     pygame.display.update()
