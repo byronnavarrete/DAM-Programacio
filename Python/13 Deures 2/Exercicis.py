@@ -65,7 +65,7 @@ llistaAjuda = [
 "  Sortir    > surt del programa"
 ""]
 
-def infoJoc(nomJoc):
+def infoJoc():
     """
     Retorna informació sobre un joc específic.
     Paràmetres:
@@ -82,8 +82,22 @@ def infoJoc(nomJoc):
           ["Error infoJoc: "abc" desconegut."]
     """
     pass
+    nomJoc = input("Dime un nom de videojoc: ").lower()
+    resultats = []
+    
+    for joc in llistaJocs:
+        nom_lower = joc['nom'].lower()
+        if nomJoc in nom_lower or nom_lower.startswith(nomJoc):
+            resultats.append(f"{joc['nom']}: {joc['any']}, {joc['tipus']} ({joc['preu']} pessetes)")
+    
+    if resultats:
+        return resultats
+    else:
+        return [f'Error infoJoc: "{nomJoc}" desconegut.']
 
-def comptarPerClau(clau):
+print(infoJoc())
+
+def comptarPerClau():
     """
     Compta la freqüència dels valors d'una clau específica en la llista de jocs.
     Paràmetres:
@@ -111,6 +125,39 @@ def comptarPerClau(clau):
         }
     """
     pass
+    print("Hola! Què t'agradaria saber?")
+    print("1. Anys")
+    print("2. Tipus")
+    print("3. Preu")
+    print("4. Nom")
+
+    opcio = input("Selecciona una opció (1-4): ")
+
+    if opcio == '1':
+        clau = "any"
+    elif opcio == '2':
+        clau = "tipus"
+    elif opcio == '3':
+        clau = "preu"
+    elif opcio == '4':
+        clau = "nom"
+    else:
+        print("Opció no vàlida.")
+        return
+
+    resultats = {}
+    
+    for joc in llistaJocs:
+        valor = joc.get(clau)
+        if valor in resultats:
+            resultats[valor] += 1
+        else:
+            resultats[valor] = 1
+
+    print("\nResultats:")
+    print(diccionariBonic(resultats, 4))
+
+comptarPerClau()
 
 def llistarPerClau(clau, condicio):
     """
@@ -130,6 +177,16 @@ def llistarPerClau(clau, condicio):
           Mario Kart 64: 1996, Carreres (10000 pessetes)
     """
     pass
+    def llistarPerClau(clau, condicio):
+    resultats = []
+    
+    for joc in llistaJocs:
+        if str(joc.get(clau)) == str(condicio):  """ serveixi per comparar·los"""
+            resultats.append(f"{joc['nom']}: {joc['any']}, {joc['tipus']} ({joc['preu']} pessetes)")
+    
+    return resultats if resultats else [f"Cap joc trobat per a {clau} = {condicio}."]
+    
+print(llistarPerClau("nom", "Super Mario Bros"))
 
 
 def llistarPerInterval(clau, inici, fi):
@@ -150,6 +207,17 @@ def llistarPerInterval(clau, inici, fi):
           Donkey Kong: 1981, Plataformes (1000 pessetes)
     """
     pass
+    resultats = []
+
+    for joc in llistaJocs:
+        valor = joc.get(clau)
+        if inici <= valor <= fi:
+            resultat = f"{joc['nom']}: {joc['any']}, {joc['tipus']} ({joc['preu']} pessetes)"
+            resultats.append(resultat)
+    
+    return resultats
+
+print(llistarPerInterval("any", 1980, 1990))
 
 def modificarJoc(nomJoc, clau, nouValor):
     global llistaJocs
@@ -169,6 +237,15 @@ def modificarJoc(nomJoc, clau, nouValor):
           Super Mario Bros: 1985, Plataformes (2 pessetes)
     """
     pass
+    global llistaJocs
+    for joc in llistaJocs:
+        if joc["nom"] == nomJoc:
+            joc[clau] = nouValor
+            return f"{joc['nom']}: {joc['any']}, {joc['tipus']} ({joc['preu']} pessetes)"
+    
+    return f"Error modificarJoc: \"{nomJoc}\" desconegut."
+
+print(modificarJoc("Pokémon Red i Blue", "tipos", 1))
 
 def ajudaAmpliada(nomFuncio):    
     """
@@ -193,6 +270,15 @@ def ajudaAmpliada(nomFuncio):
           Error ajudaAmpliada: funció "abc" desconeguda.
     """
     pass
+    if nomFuncio in diccionariFuncions:
+        funcio = diccionariFuncions[nomFuncio]
+        ajuda = [f"Ajuda:   {funcio['ajuda']}"]
+        ajuda.append(f"Exemple: {funcio['exemple']}")
+        return ajuda
+    else:
+        return [f"Error ajudaAmpliada: funció \"{nomFuncio}\" desconeguda."]
+
+print("\n".join(ajudaAmpliada("llistarPerClau")))
 
 def divideixFrase(frase):
     """
@@ -277,6 +363,10 @@ def limitaFrases(llista):
         ['c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']
     """
     pass
+    if len(llista) > 10:
+        return llista[-10:]  
+    return llista  
+print(limitaFrases(['a', 'b', 'c', 'd', 'e', 'y', 'A', 'B', 2, 3, 5]))
 
 def mostraFrases(llista):
     """
@@ -320,6 +410,13 @@ def mostraFrases(llista):
         de manera consistent en una interfície de consola.
     """
     pass
+    for i in range(10):
+        if i < len(llista):
+            print(llista[i])  
+        else:
+            print()  
+mostraFrases(['a', 'b', 'c'])
+mostraFrases(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'])
 
 def mainRun():
     """
